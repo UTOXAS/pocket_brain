@@ -12,14 +12,16 @@ subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
+
 subprojects {
     project.evaluationDependsOn(":app")
 }
 
+// ADDED / MODIFIED: safe-call (?.) required because findByType returns nullable
 subprojects {
     afterEvaluate {
         if (name == "isar_flutter_libs") {
-            extensions.findByType<com.android.build.gradle.LibraryExtension>().apply {
+            extensions.findByType<com.android.build.gradle.LibraryExtension>()?.apply {
                 if (namespace == null || namespace!!.isEmpty()) {
                     namespace = "dev.isar.isar_flutter_libs"
                 }
