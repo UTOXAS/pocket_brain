@@ -16,6 +16,18 @@ subprojects {
     project.evaluationDependsOn(":app")
 }
 
+subprojects {
+    afterEvaluate {
+        if (name == "isar_flutter_libs") {
+            extenstions.findByType<com.android.build.gradle.LibraryExtension>().apply {
+                if (namespace == null || namespace!!.isEmpty()) {
+                    namespace = "dev.isar.isar_flutter_libs"
+                }
+            }
+        }
+    }
+}
+
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
