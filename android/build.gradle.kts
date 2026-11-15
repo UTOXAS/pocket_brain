@@ -19,7 +19,7 @@ subprojects {
 subprojects {
     afterEvaluate {
         if (name == "isar_flutter_libs") {
-            extenstions.findByType<com.android.build.gradle.LibraryExtension>().apply {
+            extensions.findByType<com.android.build.gradle.LibraryExtension>().apply {
                 if (namespace == null || namespace!!.isEmpty()) {
                     namespace = "dev.isar.isar_flutter_libs"
                 }
