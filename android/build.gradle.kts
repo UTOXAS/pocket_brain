@@ -17,14 +17,12 @@ subprojects {
     project.evaluationDependsOn(":app")
 }
 
-// ADDED / MODIFIED: safe-call (?.) required because findByType returns nullable
+// ADDED / MODIFIED: use pluginManager.withPlugin (avoids afterEvaluate timing error)
 subprojects {
-    afterEvaluate {
-        if (name == "isar_flutter_libs") {
-            extensions.findByType<com.android.build.gradle.LibraryExtension>()?.apply {
-                if (namespace == null || namespace!!.isEmpty()) {
-                    namespace = "dev.isar.isar_flutter_libs"
-                }
+    if (name == "isar_flutter_libs") {
+        pluginManager.withPlugin("com.android.library") {
+            extensions.configure<com.android.build.api.dsl.LibraryExtension>("android") {
+                namespace = "dev.isar.isar_flutter_libs"
             }
         }
     }
