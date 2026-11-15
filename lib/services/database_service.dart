@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pocket_brain/models/sync_status.dart';
 import '../models/note.dart';
 import '../models/task.dart';
 import '../models/voice_memo.dart';
