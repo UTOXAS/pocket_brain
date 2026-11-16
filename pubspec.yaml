@@ -39,7 +39,7 @@ dependencies:
   path_provider: ^2.1.5
   connectivity_plus: ^6.1.0
   uuid: ^4.5.1
-  record: ^5.1.2
+  record: ^6.2.1
   permission_handler: ^11.3.1
   http: ^1.2.2
   google_generative_ai: ^0.4.6
