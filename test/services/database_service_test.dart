@@ -27,8 +27,8 @@ void main() {
 
   setUpAll(() async {
     PathProviderPlatform.instance = FakePathProviderPlatform();
-    // ADDED: download Isar native binary for unit tests on Windows
-    await Isar.initializeIsarCore(download: true);
+    // MODIFIED: use local isar.dll (copied to project root). download:true fails under TestWidgetsFlutterBinding.
+    await Isar.initializeIsarCore(download: false);
     await DatabaseService.instance;
   });
 

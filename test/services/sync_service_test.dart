@@ -26,8 +26,8 @@ void main() {
 
   setUpAll(() async {
     PathProviderPlatform.instance = FakePathProviderPlatform();
-    // ADDED: required for Isar in unit tests
-    await Isar.initializeIsarCore(download: true);
+    // MODIFIED: use local isar.dll; download:true is blocked by TestWidgetsFlutterBinding
+    await Isar.initializeIsarCore(download: false);
   });
 
   setUp(() async {
