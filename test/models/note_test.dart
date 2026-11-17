@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:isar/isar.dart';
 import 'package:pocket_brain/models/note.dart';
 import 'package:pocket_brain/models/sync_status.dart';
 

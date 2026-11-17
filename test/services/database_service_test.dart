@@ -9,13 +9,15 @@ import 'package:pocket_brain/models/sync_status.dart';
 import 'package:pocket_brain/services/database_service.dart';
 import 'package:uuid/uuid.dart';
 
-// Minimal fake PathProvider for unit tests
+// Minimal fake PathProvider for unit tests (Windows-friendly)
 class FakePathProviderPlatform extends Fake
     with MockPlatformInterfaceMixin
     implements PathProviderPlatform {
   @override
-  Future<String?> getApplicationDocumentsPath() async =>
-      '/tmp/pocket_brain_test';
+  Future<String?> getApplicationDocumentsPath() async {
+    // ADDED: Windows-compatible temp path
+    return r'C:\Temp\pocket_brain_test';
+  }
 }
 
 void main() {
@@ -124,7 +126,7 @@ void main() {
       final now = DateTime.now();
       final memo = VoiceMemo.create(
         uuid: uuid,
-        localPath: '/tmp/test.m4a',
+        localPath: r'C:\Temp\test.m4a',
         durationMs: 5000,
         createdAt: now,
         updatedAt: now,
@@ -135,7 +137,7 @@ void main() {
 
       expect(all.any((m) => m.uuid == uuid), isTrue);
       final saved = all.firstWhere((m) => m.uuid == uuid);
-      expect(saved.localPath, '/tmp/test.m4a');
+      expect(saved.localPath, r'C:\Temp\test.m4a');
       expect(saved.durationMs, 5000);
     });
 
@@ -144,7 +146,7 @@ void main() {
       final now = DateTime.now();
       final memo = VoiceMemo.create(
         uuid: uuid,
-        localPath: '/tmp/del.m4a',
+        localPath: r'C:\Temp\del.m4a',
         durationMs: 1000,
         createdAt: now,
         updatedAt: now,
@@ -158,9 +160,7 @@ void main() {
   });
 
   group('DatabaseService – pendingCount', () {
-    test('pendingCount returns sum of pending items', () async {
-      // Clear previous data by deleting known items is hard;
-      // we just assert the method returns a non-negative integer.
+    test('pendingCount returns non-negative integer', () async {
       final count = await db.pendingCount();
       expect(count, greaterThanOrEqualTo(0));
     });
