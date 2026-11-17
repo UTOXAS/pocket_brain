@@ -6,7 +6,13 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
 
 class AudioService {
-  final AudioRecorder _recorder = AudioRecorder();
+  // MODIFIED: lazy init so unit tests do not hit the platform channel on construction
+  AudioRecorder? _recorder;
+  AudioRecorder get _recorderInstance {
+    _recorder ??= AudioRecorder();
+    return _recorder!;
+  }
+
   final _uuid = const Uuid();
 
   Future<bool> requestPermission() async {
@@ -16,14 +22,14 @@ class AudioService {
 
   Future<String?> startRecording() async {
     if (!await requestPermission()) return null;
-    if (await _recorder.isRecording()) return null;
+    if (await _recorderInstance.isRecording()) return null;
 
     final dir = await getApplicationDocumentsDirectory();
     final fileName = '${_uuid.v4()}.m4a';
     final path = p.join(dir.path, 'memos', fileName);
     await Directory(p.dirname(path)).create(recursive: true);
 
-    await _recorder.start(
+    await _recorderInstance.start(
       const RecordConfig(encoder: AudioEncoder.aacLc),
       path: path,
     );
@@ -31,12 +37,12 @@ class AudioService {
   }
 
   Future<String?> stopRecording() async {
-    return await _recorder.stop();
+    return await _recorderInstance.stop();
   }
 
   Future<void> cancel() async {
-    await _recorder.cancel();
+    await _recorderInstance.cancel();
   }
 
-  Future<bool> isRecording() => _recorder.isRecording();
+  Future<bool> isRecording() => _recorderInstance.isRecording();
 }

@@ -27,7 +27,8 @@ void main() {
 
   setUpAll(() async {
     PathProviderPlatform.instance = FakePathProviderPlatform();
-    // Open a temporary Isar instance for tests
+    // ADDED: download Isar native binary for unit tests on Windows
+    await Isar.initializeIsarCore(download: true);
     await DatabaseService.instance;
   });
 

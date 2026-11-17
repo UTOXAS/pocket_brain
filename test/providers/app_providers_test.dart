@@ -22,6 +22,7 @@ void main() {
       final container = ProviderContainer();
       addTearDown(container.dispose);
 
+      // MODIFIED: safe because AudioRecorder is now created lazily
       final audio = container.read(audioServiceProvider);
       expect(audio, isA<AudioService>());
     });
@@ -48,7 +49,6 @@ void main() {
         final container = ProviderContainer();
         addTearDown(container.dispose);
 
-        // Just verify they can be watched without throwing
         final notes = container.read(notesProvider);
         final tasks = container.read(tasksProvider);
         final memos = container.read(memosProvider);
