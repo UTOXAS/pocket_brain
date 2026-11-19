@@ -56,6 +56,8 @@ class NotesScreen extends ConsumerWidget {
         error: (e, _) => Center(child: Text('Error: $e')),
       ),
       floatingActionButton: FloatingActionButton(
+        // ADDED: unique heroTag to avoid conflict with other FABs in IndexedStack
+        heroTag: 'notes_fab',
         onPressed: () {
           Navigator.push(
             context,

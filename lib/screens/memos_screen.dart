@@ -108,6 +108,8 @@ class _MemosScreenState extends ConsumerState<MemosScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
+        // ADDED: unique heroTag to avoid conflict with other FABs in IndexedStack
+        heroTag: 'memos_fab',
         onPressed: _toggleRecord,
         icon: Icon(_isRecording ? Icons.stop : Icons.mic),
         label: Text(_isRecording ? 'Stop' : 'Record'),
