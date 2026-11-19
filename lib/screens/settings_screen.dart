@@ -22,7 +22,11 @@ class SettingsScreen extends ConsumerWidget {
             subtitle: const Text('Push pending changes'),
             onTap: () async {
               await ref.read(syncServiceProvider).syncNow();
+              // MODIFIED: invalidate all list providers so status chips update
               ref.invalidate(pendingCountProvider);
+              ref.invalidate(notesProvider);
+              ref.invalidate(tasksProvider);
+              ref.invalidate(memosProvider);
               if (context.mounted) {
                 ScaffoldMessenger.of(
                   context,

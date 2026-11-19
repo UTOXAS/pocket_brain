@@ -14,7 +14,14 @@ class SyncBadge extends ConsumerWidget {
           return IconButton(
             icon: const Icon(Icons.cloud_done_outlined),
             tooltip: 'All synced',
-            onPressed: () => ref.read(syncServiceProvider).syncNow(),
+            // MODIFIED: await sync + invalidate so UI updates immediately
+            onPressed: () async {
+              await ref.read(syncServiceProvider).syncNow();
+              ref.invalidate(pendingCountProvider);
+              ref.invalidate(notesProvider);
+              ref.invalidate(tasksProvider);
+              ref.invalidate(memosProvider);
+            },
           );
         }
         return Badge(
@@ -22,7 +29,14 @@ class SyncBadge extends ConsumerWidget {
           child: IconButton(
             icon: const Icon(Icons.cloud_upload_outlined),
             tooltip: '$count pending',
-            onPressed: () => ref.read(syncServiceProvider).syncNow(),
+            // MODIFIED: await sync + invalidate so UI updates immediately
+            onPressed: () async {
+              await ref.read(syncServiceProvider).syncNow();
+              ref.invalidate(pendingCountProvider);
+              ref.invalidate(notesProvider);
+              ref.invalidate(tasksProvider);
+              ref.invalidate(memosProvider);
+            },
           ),
         );
       },

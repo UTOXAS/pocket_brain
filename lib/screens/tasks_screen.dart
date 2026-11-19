@@ -22,8 +22,10 @@ class TasksScreen extends ConsumerWidget {
           }
           return RefreshIndicator(
             onRefresh: () async {
-              ref.invalidate(tasksProvider);
+              // MODIFIED: sync first, then invalidate so fresh data is loaded
               await ref.read(syncServiceProvider).syncNow();
+              ref.invalidate(tasksProvider);
+              ref.invalidate(pendingCountProvider);
             },
             child: ListView.builder(
               padding: const EdgeInsets.only(top: 8, bottom: 80),
@@ -65,7 +67,6 @@ class TasksScreen extends ConsumerWidget {
         error: (e, _) => Center(child: Text('Error: $e')),
       ),
       floatingActionButton: FloatingActionButton(
-        // ADDED: unique heroTag to avoid conflict with other FABs in IndexedStack
         heroTag: 'tasks_fab',
         onPressed: () {
           Navigator.push(
