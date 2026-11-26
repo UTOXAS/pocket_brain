@@ -6,6 +6,9 @@ plugins {
 }
 
 android {
+    testOptions {
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
+    }
     namespace = "com.pocketbrain.pocket_brain"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
@@ -20,6 +23,8 @@ android {
     }
 
     defaultConfig {
+        testInstrumentationRunner = "pl.leancode.patrol.PatrolJUnitRunner"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.pocketbrain.pocket_brain"
         // You can update the following values to match your application needs.
@@ -41,4 +46,8 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    androidTestUtil("androidx.test:orchestrator:1.5.1")
 }

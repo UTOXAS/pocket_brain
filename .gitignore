@@ -46,3 +46,4 @@ app.*.map.json
 
 secrets.json
 progress.txt
+test_videos/
