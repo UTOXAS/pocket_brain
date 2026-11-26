@@ -46,4 +46,5 @@ app.*.map.json
 
 secrets.json
 progress.txt
-test_videos/
+/test_videos/
+/patrol_test/test_bundle.dart
