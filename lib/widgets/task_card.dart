@@ -30,6 +30,9 @@ class TaskCard extends StatelessWidget {
         ),
         title: Text(
           task.title,
+          // ADDED: prevent title overflow
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: theme.textTheme.titleMedium?.copyWith(
             decoration: task.isCompleted ? TextDecoration.lineThrough : null,
             fontWeight: FontWeight.w600,
@@ -45,13 +48,16 @@ class TaskCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             const SizedBox(height: 4),
-            Row(
+            // MODIFIED: Row -> Wrap so date + chip wrap instead of overflowing
+            Wrap(
+              spacing: 8,
+              runSpacing: 4,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Text(
                   DateFormat.yMMMd().add_jm().format(task.updatedAt),
                   style: theme.textTheme.bodySmall,
                 ),
-                const SizedBox(width: 8),
                 _statusChip(task.syncStatus, theme),
               ],
             ),

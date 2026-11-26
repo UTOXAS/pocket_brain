@@ -83,31 +83,35 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextField(
-              controller: _titleCtrl,
-              decoration: const InputDecoration(
-                labelText: 'Title',
-                border: OutlineInputBorder(),
+        // ADDED: SingleChildScrollView so the form can't overflow
+        // when the keyboard is open on small screens
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              TextField(
+                controller: _titleCtrl,
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _descCtrl,
-              maxLines: 4,
-              decoration: const InputDecoration(
-                labelText: 'Description (optional)',
-                border: OutlineInputBorder(),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _descCtrl,
+                maxLines: 4,
+                decoration: const InputDecoration(
+                  labelText: 'Description (optional)',
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            SwitchListTile(
-              title: const Text('Completed'),
-              value: _isCompleted,
-              onChanged: (v) => setState(() => _isCompleted = v),
-            ),
-          ],
+              const SizedBox(height: 16),
+              SwitchListTile(
+                title: const Text('Completed'),
+                value: _isCompleted,
+                onChanged: (v) => setState(() => _isCompleted = v),
+              ),
+            ],
+          ),
         ),
       ),
     );

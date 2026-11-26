@@ -36,13 +36,16 @@ class NoteCard extends StatelessWidget {
             if (note.content.isNotEmpty)
               Text(note.content, maxLines: 2, overflow: TextOverflow.ellipsis),
             const SizedBox(height: 4),
-            Row(
+            // MODIFIED: Row -> Wrap so date + chip wrap instead of overflowing
+            Wrap(
+              spacing: 8,
+              runSpacing: 4,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Text(
                   DateFormat.yMMMd().add_jm().format(note.updatedAt),
                   style: theme.textTheme.bodySmall,
                 ),
-                const SizedBox(width: 8),
                 _statusChip(note.syncStatus, theme),
               ],
             ),

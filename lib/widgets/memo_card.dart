@@ -20,7 +20,12 @@ class MemoCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: ListTile(
         leading: const CircleAvatar(child: Icon(Icons.mic)),
-        title: Text('Voice Memo • $durationStr'),
+        // MODIFIED: single line + ellipsis so the title can never overflow
+        title: Text(
+          'Voice Memo • $durationStr',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -31,13 +36,16 @@ class MemoCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             const SizedBox(height: 4),
-            Row(
+            // MODIFIED: Row -> Wrap so date + chip wrap instead of overflowing
+            Wrap(
+              spacing: 8,
+              runSpacing: 4,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Text(
                   DateFormat.yMMMd().add_jm().format(memo.createdAt),
                   style: theme.textTheme.bodySmall,
                 ),
-                const SizedBox(width: 8),
                 _statusChip(memo.syncStatus, theme),
               ],
             ),

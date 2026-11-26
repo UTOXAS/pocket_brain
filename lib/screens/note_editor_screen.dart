@@ -66,12 +66,15 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen> {
     try {
       if (action == 'summarize') {
         final result = await ai.summarize(text);
+        if (!mounted) return;
         setState(() => _aiResult = result);
       } else {
         final items = await ai.extractActionItems(text);
+        if (!mounted) return;
         setState(() => _aiResult = items.join('\n'));
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() => _aiResult = 'AI error: $e');
     }
   }
@@ -129,14 +132,23 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen> {
                 ),
               ),
               const SizedBox(height: 8),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(12),
+              // MODIFIED: height-capped + scrollable so long AI output
+              // can never overflow the Column
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 140),
+                child: SingleChildScrollView(
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(_aiResult!),
+                  ),
                 ),
-                child: Text(_aiResult!),
               ),
             ],
             const SizedBox(height: 12),
@@ -146,7 +158,11 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen> {
                   child: OutlinedButton.icon(
                     onPressed: () => _runAi('summarize'),
                     icon: const Icon(Icons.summarize),
-                    label: const Text('Summarize'),
+                    // MODIFIED: FittedBox so the label scales down, never overflows
+                    label: const FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text('Summarize'),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -154,7 +170,11 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen> {
                   child: OutlinedButton.icon(
                     onPressed: () => _runAi('actions'),
                     icon: const Icon(Icons.checklist),
-                    label: const Text('Action Items'),
+                    // MODIFIED: FittedBox so the label scales down, never overflows
+                    label: const FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text('Action Items'),
+                    ),
                   ),
                 ),
               ],

@@ -75,7 +75,14 @@ class _MemosScreenState extends ConsumerState<MemosScreen> {
                 children: [
                   Icon(Icons.mic, color: Colors.red),
                   SizedBox(width: 8),
-                  Text('Recording… Tap stop when finished'),
+                  // MODIFIED: Flexible + ellipsis so the banner can't overflow
+                  Flexible(
+                    child: Text(
+                      'Recording… Tap stop when finished',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -108,7 +115,6 @@ class _MemosScreenState extends ConsumerState<MemosScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        // ADDED: unique heroTag to avoid conflict with other FABs in IndexedStack
         heroTag: 'memos_fab',
         onPressed: _toggleRecord,
         icon: Icon(_isRecording ? Icons.stop : Icons.mic),
